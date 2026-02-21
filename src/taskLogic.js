@@ -1,3 +1,4 @@
+import { getTasks } from "./state";
 
 export function createTask(text){
     return {

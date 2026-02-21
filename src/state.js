@@ -2,9 +2,7 @@ import { createLog } from './logLogic';
 import { createTask } from './taskLogic';
 
 const VALID_FILTERS = ['all', 'pending', 'completed'];
-const STORAGE_KEY = 'todo_pro_v1';
-
-loadState();
+export const STORAGE_KEY = 'todo_pro_v1';
 
 const _state = {
     tasks : [],
@@ -51,7 +49,19 @@ export const addTaskToState = (title) => {
         saveState();
         console.log("✅ Task & Log added to state");
         return newTask;
-    };
+};
+
+export const removeTaskOfState = (taskId,title) =>{
+    const index = _state.tasks.findIndex(task => task.id === taskId);
+    if (index !== -1) {
+        // _state.tasks.splice(index, 1);
+        _state.tasks = _state.tasks.filter(task => task.id !== taskId);
+        const newLog = createLog(taskId, 'DELETE', title);
+        _state.logs.push(newLog);
+        saveState();
+        console.log("✅ Task & Log added to state");
+    }
+};
 
 export function getVisibleTasks(){
     const allTasks = getTasks();
@@ -85,4 +95,14 @@ function loadState(){
     _state.tasks = savedData.tasks;
     _state.logs = savedData.logs;
     _state.filter = savedData.filter;
+}
+
+
+loadState();
+
+// testing
+export function resetState() {
+    _state.tasks = [];
+    _state.logs = [];
+    _state.filter = VALID_FILTERS[0];
 }
