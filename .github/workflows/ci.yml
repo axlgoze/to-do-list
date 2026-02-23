@@ -1,0 +1,27 @@
+name: TodoList CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Descargando código
+        uses: actions/checkout@v4
+
+      - name: 🟢 Configurando Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Usamos una versión de Node estable
+          cache: 'npm'
+
+      - name: 📦 Instalando dependencias
+        run: npm install
+
+      - name: 🧪 Ejecutando Tests de Jest
+        run: npm test
