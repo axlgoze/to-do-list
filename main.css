@@ -129,14 +129,6 @@ body {
     transition: color 0.3s ease;
 }
 
-/* .task-manger__btn-icon:hover{
-    color: var(--color-text-main);
-
-} */
-
-/* .task-manager__card-list li:hover .task-manager__icon {
-    color: var(--color-white);
-} */
 
 /* =========================================
    5. Lista de Tareas
@@ -233,4 +225,60 @@ border: 1px dotted var(--color-accent);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+/* =========================================
+   6. Media Queries (Responsividad)
+   ========================================= */
+
+/* --- Tablets y pantallas medianas (Menos de 768px) --- */
+@media (max-width: 768px) {
+    .page-layout {
+        max-width: 95%; /* Damos un poco más de aire a los lados */
+    }
+
+    .task-manager {
+        padding: 1.5rem; /* Reducimos ligeramente el padding interno */
+    }
+
+    .task-manager__card-list {
+        max-height: 40vh; /* Ajustamos el alto de la lista basado en la pantalla */
+    }
+}
+
+/* --- Celulares (Menos de 480px) --- */
+@media (max-width: 480px) {
+    body {
+        padding-top: 15px; /* Menos espacio arriba en móviles */
+        align-items: flex-start; /* Evita que se corte el contenido arriba si es muy largo */
+        overflow-y: auto; /* Permitimos scroll en el body solo si el contenido supera la pantalla */
+    }
+
+    .task-manger__input {
+        flex-direction: column; /* Apilamos el input y el botón uno sobre otro */
+        gap: 15px;
+    }
+
+    .task-manager__control {
+        flex-basis: 100%; /* El input toma todo el ancho */
+        padding: 18px 12px 8px 12px;
+    }
+
+    .task-manger__btn {
+        width: 100%; /* El botón toma todo el ancho */
+        height: 55px; /* Más alto para que sea fácil de tocar con el dedo (Touch target) */
+        border-radius: 12px; /* Menos redondeado para que combine con el input */
+    }
+
+    .task-manager__label {
+        font-size: 0.65rem; /* Texto un poco más pequeño para no saturar */
+    }
+
+    .task-manager__card-list li {
+        padding: 10px; /* Li más compactos */
+    }
+
+    .card-list__task-title {
+        font-size: 0.9rem; /* Texto de tarea legible pero compacto */
+    }
 }
