@@ -1,5 +1,16 @@
 /* =========================================
-   1. Reset
+   1. Variables de Color (:root)
+   ========================================= */
+:root {
+    --color-bg: #1A3636;        /* Verde muy oscuro (Fondo) */
+    --color-surface: #40534C;   /* Verde grisáceo (Contenedor) */
+    --color-accent: #677D6A;    /* Verde hoja (Detalles/Bordes) */
+    --color-text-main: #D6BD98; /* Crema/Arena (Títulos/Botón) */
+    --color-white: #FFFFFF;
+}
+
+/* =========================================
+   2. Reset & Centrado Absoluto
    ========================================= */
 *, *::before, *::after {
     margin: 0;
@@ -8,11 +19,218 @@
 }
 
 body {
-    min-height: 100vh;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #232323;
-    color: white;
+    height: 100vh;
+    width: 100vw;
     display: flex;
-    flex-direction: column; /* Alineación vertical para el main */
+    justify-content: center;
+    align-items: baseline;
+    background-color: var(--color-bg);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: var(--color-text-main);
+    overflow: hidden; /* Mantiene el enfoque en el centro sin scroll */
+    padding-top: 30px;
+}
+
+/* =========================================
+   3. Bloque: Page Layout
+   ========================================= */
+.page-layout {
+    width: 90%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   4. Bloque: Task Manager
+   ========================================= */
+.task-manager {
+    background-color: var(--color-surface);
+    padding: 1rem;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    border: 1px dotted var(--color-accent);
+}
+
+/* Contenedor de Input y Botón */
+.task-manger__input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+    /* margin-bottom: 2rem; */
+}
+
+.task-manager__label {
+    position: absolute;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--color-text-main);
+    margin: 4px 0 1px 9px;
+}
+
+.task-manager__control {
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    padding: 20px 12px 8px 12px;
+    color: var(--color-white);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    flex-basis: 80%; /* Ocupa el 60% del ancho del padre */
+    flex-shrink: 0;
+}
+
+.task-manager__control:focus {
+    border-color: var(--color-text-main);
+    box-shadow: 0 0 0 3px rgba(152, 214, 157, 0.1);
+}
+
+
+
+/* Botón (Ahora dentro del grupo de entrada) */
+.task-manger__btn {
+    background-color: var(--color-text-main);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 300px;
+    padding: 14px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
+    flex-grow: 1;
+}
+
+.task-manger__btn:hover {
+    background-color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+.task-manger__btn:hover .task-manger__btn-icon {
+    color: var(--color-text-main);    /* El icono cambia a crema cuando el botón se vuelve oscuro */
+}
+
+/* .task-manger__btn:active {
+    transform: translateY(0);
+} */
+
+.task-manger__btn-icon{
+    color: var(--color-bg);
+    width: 33px;
+    height: 33px;
+    transition: color 0.3s ease;
+}
+
+/* .task-manger__btn-icon:hover{
+    color: var(--color-text-main);
+
+} */
+
+/* .task-manager__card-list li:hover .task-manager__icon {
+    color: var(--color-white);
+} */
+
+/* =========================================
+   5. Lista de Tareas
+   ========================================= */
+
+.task-render{
+    background-color: var(--color-surface);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+border: 1px dotted var(--color-accent);
+
+}
+
+.task-manager__card-list {
+    list-style: none;
+    max-height: 250px; /* Evita que crezca infinitamente */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Scrollbar minimalista */
+.task-manager__card-list::-webkit-scrollbar { width: 4px; }
+.task-manager__card-list::-webkit-scrollbar-thumb { 
+    background: var(--color-accent); 
+    border-radius: 10px; 
+}
+
+.task-manager__card-list li {
+    /* background-color: rgba(103, 125, 106, 0.3); */
+    background-color: rgba(226, 241, 231, 0.4);
+    margin-bottom: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.task-manager__card-list li:hover {
+    border-color: var(--color-accent);
+    background-color: rgba(103, 125, 106, 0.5);
+}
+
+.task-manager__card-list li div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-list__task-title.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Iconos de la lista */
+.card-list__check-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-text-main);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+}
+
+.card-list__task-title {
+    font-size: 1rem;
+    color: var(--color-white);
+}
+
+.card-list__remove-icon {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.card-list__remove-icon:hover {
+    opacity: 1;
+    color: #ff6b6b; /* Un rojo suave para borrar */
+}
+
+.card-list__remove-icon::before {
+    content: "✕";
+    font-style: normal;
+    font-weight: bold;
+}
+
+.is-completed::before {
+    content: "✓";
+    font-style: normal;
+    color: yellowgreen;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

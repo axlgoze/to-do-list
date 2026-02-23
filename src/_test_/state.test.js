@@ -1,6 +1,11 @@
 /** @jest-environment jsdom */
-import { addTaskToState, removeTaskOfState, getTasks, resetState, STORAGE_KEY} from '../state.js';
+import { addTaskToState, removeTaskOfState, getTasks, resetState, STORAGE_KEY, toggleTaskStatus} from '../state.js';
 import { jest, describe, test, expect, beforeEach } from '@jest/globals';
+
+jest.unstable_mockModule('../state.js', () => ({
+    getVisibleTasks: jest.fn(),
+    toggleTaskStatus: jest.fn(),
+}));
 
 describe('Suite: State Management with JSDOM', () => {
 
@@ -57,10 +62,14 @@ describe('Suite: State Management with JSDOM', () => {
         removeTaskOfState(taskId, taskTitle);
 
         const tasksAfter = getTasks();
-
-
-
         expect(tasksAfter.length).toBe(0)
+    });
+
+    test('should add css class when is called', async () => {
+        // ARRANGE
+        const task = addTaskToState('Test Task');
+        taskId = task.id;
+        // ACT
     });
 
 });

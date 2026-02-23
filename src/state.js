@@ -1,5 +1,5 @@
-import { createLog } from './logLogic';
-import { createTask } from './taskLogic';
+import { createLog } from './logLogic.js';
+import { createTask } from './taskLogic.js';
 
 const VALID_FILTERS = ['all', 'pending', 'completed'];
 export const STORAGE_KEY = 'todo_pro_v1';
@@ -9,11 +9,8 @@ const _state = {
     logs : [],
     filter: VALID_FILTERS[0],
     
-    // deleteTask : (taskId) => {},
     // editTask : (taskId) => {},
  
-    // saveState : (taskId) => {},
-    // loadState : (taskId) => {},
 }
 
 export function getSate(){
@@ -21,9 +18,9 @@ export function getSate(){
     return currentState;
 }
 
-export function setSate(){
+// export function setSate(){
     
-}
+// }
 
 export function getTasks(){
     const currentTasks = structuredClone(_state.tasks);
@@ -47,7 +44,11 @@ export const addTaskToState = (title) => {
         _state.tasks.push(newTask);
         _state.logs.push(newLog);
         saveState();
-        console.log("✅ Task & Log added to state");
+        console.log(
+            `➕ Task Created: %c"${newTask.title}"%c | ID: ${newTask.id.slice(0,8)}`, 
+            'color: #3498db; font-weight: bold', 
+            'color: inherit'
+        );
         return newTask;
 };
 
@@ -59,7 +60,11 @@ export const removeTaskOfState = (taskId,title) =>{
         const newLog = createLog(taskId, 'DELETE', title);
         _state.logs.push(newLog);
         saveState();
-        console.log("✅ Task & Log added to state");
+        console.log(
+            `🗑️ Task Deleted: %c"${title}"%c`, 
+            'color: #e74c3c; font-weight: bold', // Rojo para borrado
+            'color: inherit'
+        );
     }
 };
 
@@ -92,9 +97,39 @@ function loadState(){
     
     const savedData = JSON.parse(dataString);
 
-    _state.tasks = savedData.tasks;
-    _state.logs = savedData.logs;
-    _state.filter = savedData.filter;
+    _state.tasks = savedData.tasks || [];
+    _state.logs = savedData.logs || [];
+    _state.filter = savedData.filter || VALID_FILTERS[0];
+
+    console.log(
+        `💾 State loaded: %c${_state.tasks.length} tasks%c found in LocalStorage`, 
+        'color: #2ecc71; font-weight: bold',
+        'color: inherit'
+    );
+}
+
+export function toggleTaskStatus(id){
+    const tasks = _state.tasks;
+    const task = tasks.find( t => t.id === id)
+    if(!task) return;
+    task.isCompleted = !task.isCompleted;
+    
+
+    //log
+    const statusText = task.isCompleted ? 'COMPLETED' : 'PENDING'
+    const statusColor = task.isCompleted ? '#1abc9c' : '#e67e22';
+    // Creates a Logc object
+    const newLog = createLog(task.id, 'UPDATE_STATUS', `${task.title} set to ${statusText}`);
+    // push the log object created to the log array
+    _state.logs.push(newLog);
+    saveState();
+    console.log(
+        `✅ Task: %c"${task.title}"%c | Status: %c${statusText}%c`, 
+        'color: #3498db; font-weight: bold', // Azul para el título
+        'color: inherit',                    // Reset
+        `color: ${statusColor}; font-weight: bold; text-transform: uppercase;`, // Turquesa o Naranja
+        'color: inherit'                     // Reset final
+    );
 }
 
 

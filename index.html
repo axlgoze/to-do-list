@@ -7,7 +7,28 @@
     <title>Document</title>
 </head>
 <body>
-    🐸
-    <script src="main.js"></script>
+    <main class="page-layout">
+        <section class="task-manager">
+            <div class="task-manger__input">
+                <label for="task-input" class="task-manager__label">task name</label>
+                <input type="text" name="task-input" id="task-input" class="task-manager__control" placeholder="...">
+                <button type="button" class="task-manger__btn" id="add-btn">
+                    <svg class="task-manger__btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </button>
+            </div>       
+        </section>
+
+        <section class="task-render">
+            <div class="task-manager__tasks">
+                    <ul class="task-manager__card-list" data-list>
+                        
+                    </ul>
+                </div>
+        </section>
+        
+    </main>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
